@@ -3,6 +3,10 @@ import './App.css';
 import Nav from './components/Nav';
 import Banner from './components/Banner';
 
+/**
+ * 디즈니 플러스 앱의 메인 컴포넌트
+ * 네비게이션과 배너를 포함한 메인 레이아웃을 구성
+ */
 function App() {
   return (
     <Container>
@@ -14,6 +18,10 @@ function App() {
 
 export default App;
 
+/**
+ * 메인 컨테이너 스타일
+ * 배경 이미지를 포함하며 네비게이션 아래 위치하는 메인 콘텐츠 영역
+ */
 const Container = styled.main`
   position: relative;
   min-height: calc(100vh - 250px);
@@ -22,6 +30,7 @@ const Container = styled.main`
   top: 72px;
   padding: 0 calc(3.5vw + 5px);
 
+  /* 배경 이미지를 가상 요소로 추가하여 콘텐츠 뒤에 배치 */
   &:after {
     background: url("/images/home-background.png") center center /cover no-repeat fixed;
     content: "";
