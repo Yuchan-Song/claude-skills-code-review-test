@@ -9,7 +9,7 @@ import request from "../api/request";
  */
 const Banner = () => {
   // 선택된 영화 정보를 저장하는 state
-  const [movie, setMovie] = useState([]);
+  // const [movie, setMovie] = useState([]);
 
   // 컴포넌트 마운트 시 영화 데이터 가져오기
   useEffect(() => {
@@ -24,8 +24,6 @@ const Banner = () => {
     const response = await axios.get(request.fetchNowPlaying);
     if (response.status === 200) {
       const movies = response.data.results;
-      setMovie(movies);
-
       // 영화 목록 중 무작위로 하나 선택
       const movieId = movies[Math.floor(Math.random() * movies.length)].id;
 
