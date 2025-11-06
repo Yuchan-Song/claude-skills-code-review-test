@@ -1,7 +1,10 @@
 import styled from 'styled-components';
+import requests from './api/request'
 import './App.css';
 import Nav from './components/Nav';
 import Banner from './components/Banner';
+import Category from './components/Category'
+import Row from './components/Row'
 
 /**
  * 디즈니 플러스 앱의 메인 컴포넌트
@@ -12,6 +15,11 @@ function App() {
     <Container>
       <Nav />
       <Banner />
+      <Category />
+      <Row title="Trending Now" id="TN" fetchUrl={requests.fetchTrending} />
+      <Row title="Top Rated" id="TR" fetchUrl={requests.fetchTopRated} />
+      <Row title="Action" id="AM" fetchUrl={requests.fetchMoviesActionGenres} />
+      <Row title="Comedy" id="CM" fetchUrl={requests.fetchMoviesComedyGenres} />
     </Container>
   );
 }

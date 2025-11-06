@@ -8,10 +8,11 @@ const requests = {
 
     // 트렌딩 콘텐츠 (영화, TV 등 모든 미디어)
     // {time_window}는 day 또는 week로 대체됨
-    fetchTrending: "/trending/all/{time_window}",
+    // fetchTrending: "/trending/all/{time_window}",
+    fetchTrending: "/trending/all/week",
 
     // 최고 평점 영화 목록
-    fetchTopRated: "/move/top_rated",
+    fetchTopRated: "/movie/top_rated",
 
     // 장르별 영화 검색 API
     // 액션 장르 (장르 ID: 28)
