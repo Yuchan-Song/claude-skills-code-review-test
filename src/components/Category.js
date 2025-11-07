@@ -89,8 +89,6 @@ const Category = () => {
     );
   });
 
-  console.log(categoryList, categoryItems);
-
   return (
     <Container>
       {/*

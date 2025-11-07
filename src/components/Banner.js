@@ -16,7 +16,7 @@ const Banner = () => {
    * - setMovie: movie 상태를 업데이트하는 함수
    * - useState의 초기값으로 빈 배열을 사용 (추후 객체로 업데이트됨)
    */
-  const [movie, setMovie] = useState([]);
+  const [movie, setMovie] = useState(null);
 
   /**
    * [React Hook - useState]
@@ -55,6 +55,14 @@ const Banner = () => {
       const movies = response.data.results;
 
       /**
+       * 가져온 영화 목록 배열 검증
+       */
+      if (!movies || movies.length === 0) {
+        console.error('영화 목록이 비어있습니다.');
+        return;
+      }
+
+      /**
        * [무작위 영화 선택 로직]
        * Math.random(): 0 이상 1 미만의 무작위 숫자 생성
        * Math.floor(): 소수점 아래를 버림
@@ -73,9 +81,6 @@ const Banner = () => {
 
       // state 업데이트 - 컴포넌트 리렌더링 발생
       setMovie(movieDetail);
-      console.log(movieDetail);
-    } else {
-      console.log(response.statusText);
     }
   };
 
@@ -106,6 +111,14 @@ const Banner = () => {
    * 이는 React의 핵심 개념 중 하나로, 상태(state)에 따라 UI를 동적으로 변경함
    */
   if (isClicked) {
+
+    const videoKey = movie?.videos?.results[0]?.key;
+    // 비디오 Key가 없으면 다시 배너로 돌아감
+    if (!videoKey) {
+      setIsClicked(false);
+      return null;
+    }
+
     return (
       /**
        * [React Fragment (<>)]
@@ -114,34 +127,42 @@ const Banner = () => {
        * DOM에 추가 노드를 생성하지 않음
        */
       <>
-      <Container>
-        <HomeContainer>
-          {/*
+        <Container>
+          <HomeContainer>
+            {/*
             [Template Literal & Optional Chaining]
             - 백틱(`)을 사용한 템플릿 리터럴로 동적 URL 생성
             - movie?.videos?.results[0]?.key: 안전하게 중첩된 속성에 접근
             - 만약 중간에 undefined가 있어도 에러 없이 undefined 반환
           */}
-          <Iframe
-            src={`https://www.youtube.com/embed/${movie?.videos?.results[0]?.key}?controls=0&autoplay=1&loop=1&mute=1&playlist=${movie?.videos?.results[0]?.key}`}
-            width="640"
-            height="360"
-            frameBorder="0"
-            allow="autoplay; fullscreen"
-          />
-        </HomeContainer>
-      </Container>
-      {/*
+            <Iframe
+              src={`https://www.youtube.com/embed/${videoKey}?controls=0&autoplay=1&loop=1&mute=1&playlist=${videoKey}`}
+              width="640"
+              height="360"
+              frameBorder="0"
+              allow="autoplay; fullscreen"
+            />
+          </HomeContainer>
+        </Container>
+        {/*
         [React 이벤트 핸들링]
         onClick: 클릭 이벤트 핸들러
         - 화살표 함수를 사용해 setIsClicked(false) 호출
         - 클릭 시 isClicked를 false로 변경하여 다시 배너 화면으로 전환
         - React에서는 camelCase로 이벤트명을 작성 (onclick X, onClick O)
       */}
-      <button onClick={() => setIsClicked(false)}>X</button>
+        <CloseButton
+          aria-label="비디오 닫기"
+          onClick={() => setIsClicked(false)}
+        >
+          X
+        </CloseButton>
       </>
     );
   } else {
+    if (!movie) {
+      return <div>Loading...</div>
+    }
     return (
       /* header.banner [s] */
       /**
@@ -264,11 +285,36 @@ const Iframe = styled.iframe`
   border: none;
 
   &::after {
-    content: ""
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
   }
-`
+`;
+
+/**
+ * CloseButton - 영상 닫기 버튼
+ */
+const CloseButton = styled.button`
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.7);
+  border: 2px solid white;
+  color: white;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+`;

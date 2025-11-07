@@ -1,13 +1,16 @@
 import React, { useCallback, useEffect, useState } from "react";
 import axios from "../api/axios";
 import "../styles/Row.css";
+import MovieModal from "./popups/movie";
 
 const Row = ({ title, id, fetchUrl }) => {
   const [movies, setMovies] = useState([]);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedMovie, setSelectedMovie] = useState({});
 
   const fetchMovieData = useCallback(async () => {
     const request = await axios.get(fetchUrl);
-    setMovies(request.data.results);
+    setMovies(request.data.results.slice(10));
     return request;
   }, [fetchUrl]);
 
@@ -16,14 +19,20 @@ const Row = ({ title, id, fetchUrl }) => {
   }, [fetchMovieData]);
 
   const handleClick = (movie) => {
-    console.log(movie)
-  }
+    setModalOpen(true);
+    setSelectedMovie(movie);
+  };
 
   return (
     <div>
       <h2>{title}</h2>
       <div className="slider">
-        <div className="slider_arrow_left">
+        <div
+          className="slider_arrow_left"
+          onClick={() => {
+            document.getElementById(id).scrollLeft -= window.innerWidth - 80;
+          }}
+        >
           <span className="arrow">{"<"}</span>
         </div>
         <div id={id} className="row_posters">
@@ -39,10 +48,18 @@ const Row = ({ title, id, fetchUrl }) => {
             );
           })}
         </div>
-        <div className="slider_arrow_right">
+        <div
+          className="slider_arrow_right"
+          onClick={() => {
+            document.getElementById(id).scrollLeft += window.innerWidth - 80;
+          }}
+        >
           <span className="arrow">{">"}</span>
         </div>
       </div>
+      {modalOpen && (
+        <MovieModal setModalOpen={setModalOpen} {...selectedMovie} />
+      )}
     </div>
   );
 };
