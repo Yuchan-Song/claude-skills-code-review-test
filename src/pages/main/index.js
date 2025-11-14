@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from 'styled-components';
 import requests from '../../api/request'
 import Banner from '../../components/Banner';
