@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "../../api/axios";
 import './Search.css'
@@ -67,6 +67,7 @@ const SearchPage = () => {
               </div>
             )
           }
+          return null; // 조건을 만족하지 않는 경우 null 반환
         })
       }
 
