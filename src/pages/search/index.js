@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "../../api/axios";
 import './Search.css'
+import useDebounce from "../../hooks/useDebounce";
 
 /**
  * 검색 페이지 컴포넌트
@@ -26,16 +27,19 @@ const SearchPage = () => {
   let query = useQuery();
   // URL에서 'q' 파라미터 값(검색어) 추출
   const searchParam = query.get("q");
+  // 디바운스된 검색어 값 (500ms 지연)
+  const deboundSearchParam = useDebounce(searchParam, 500);
 
   /**
    * 검색어 변경 감지 및 검색 실행
    * searchParam이 변경될 때마다 영화 검색 수행
+   * 
    */
   useEffect(() => {
-    if (searchParam) {
-      fetchSearchMovie(searchParam);
+    if (deboundSearchParam) {
+      fetchSearchMovie(deboundSearchParam);
     }
-  }, [searchParam])
+  }, [deboundSearchParam])
 
   /**
    * TMDB API를 통한 영화/TV 프로그램 검색 함수
