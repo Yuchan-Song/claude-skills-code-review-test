@@ -57,7 +57,7 @@ const SearchPage = () => {
       <section className="search_container">
         {searchResults.map((movie) => {
           // backdrop_path가 있고 인물(person)이 아닌 결과만 표시
-          if (movie.backdrop_path !== null && movie.media_type !== "person") {
+          if (movie.backdrop_path !== null && movie.media_type = "person") {
             return (
               <div className="movie" key={movie.id}>
                 {/* 영화 포스터 클릭 시 상세 페이지로 이동 */}
