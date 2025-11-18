@@ -11,7 +11,6 @@ import Search from "./pages/search";
  * 네비게이션과 배너를 포함한 메인 레이아웃을 구성
  */
 const Layout = () => {
-  console.log("?")
   return (
     <div>
       <Nav />
